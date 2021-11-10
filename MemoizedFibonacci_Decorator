@@ -1,0 +1,17 @@
+def memoized(f):#"f" is the decorated function, i.e. Fibonacci
+    cache = {}
+    print("memo. cache: ", cache)
+    def wrapped(k):# "k" is the same argument as fibonacci, i.e. "n"
+        print("wrapped. k: ", k)
+        v = cache.get(k)
+        if v is None:
+            v = cache[k] = f(k) #includes f(k) in the cache, if it isn't already there.
+        return v    #returning f(k). Overrides the return of the decorated function
+    return wrapped  #the inner function must end like this
+
+@memoized
+def fibonacci(n):
+    print("Fib. n: ", n)
+    if n in [0, 1]:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
