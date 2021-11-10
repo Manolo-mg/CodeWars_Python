@@ -1,0 +1,35 @@
+class Singleton_cache:
+    dict = {}
+    __instance = None
+
+    def __new__(cls, *args): #The special constructor __new__ allows a singleton implementation
+        if cls.__instance is None:
+            cls.__instance = object.__new__(cls, *args)
+        return cls.__instance
+
+    def add(self, n,value):        
+        if n not in self.dict.keys():
+            self.dict[n] = value
+
+    def check(self, n):
+        return n in self.dict.keys()
+
+    def get(self, n):
+        try:
+            return self.dict[n]
+        except:
+            return None
+            
+            
+def fibonacci(n):
+
+    cache = Singleton_cache()
+    
+    if cache.check(n):
+        return cache.get(n)
+    else:        
+        if n in [0, 1]:
+            cache.add(n, n)
+        else:
+            cache.add(n, fibonacci(n - 1) + fibonacci(n - 2))
+        return cache.get(n)
